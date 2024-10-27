@@ -8,10 +8,7 @@ describe("Login", () => {
   });
 
   it("Should login successfully", () => {
-    cy.get('[data-cy="email"]').type("papito@cyskills.com.br");
-    cy.get('[data-cy="password"]').type("showtime");
-
-    cy.get('[data-cy="login-button"]').click();
+    cy.login("papito@cyskills.com.br", "showtime");
 
     cy.get('[data-cy="welcome-title"]')
       .should("be.visible")
@@ -19,64 +16,44 @@ describe("Login", () => {
   });
 
   it("Should not login with invalid password", () => {
-    cy.get('[data-cy="email"]').type("papito@cyskills.com.br");
-    cy.get('[data-cy="password"]').type("abc123456");
-
-    cy.get('[data-cy="login-button"]').click();
-
-    cy.get(".notice p")
-      .should("be.visible")
-      .and(
-        "have.text",
-        "E-mail ou senha incorretos. Por favor, tente novamente!"
-      );
+    cy.login("papito@cyskills.com.br", "abc123456");
+    cy.noticeHave("E-mail ou senha incorretos. Por favor, tente novamente!");
   });
 
   it("Should not login with unresgistered email", () => {
-    cy.get('[data-cy="email"]').type("404@cyskills.com.br");
-    cy.get('[data-cy="password"]').type("abc123456");
-
-    cy.get('[data-cy="login-button"]').click();
-
-    cy.get(".notice p")
-      .should("be.visible")
-      .and(
-        "have.text",
-        "E-mail ou senha incorretos. Por favor, tente novamente!"
-      );
+    cy.login("404@cyskills.com.br", "abc123456");
+    cy.noticeHave("E-mail ou senha incorretos. Por favor, tente novamente!");
   });
 
   it("Should not login with invalid email", () => {
-    cy.get('[data-cy="email"]').type("www.cyskills.com.br");
-    cy.get('[data-cy="password"]').type("abc123456");
-
-    cy.get('[data-cy="login-button"]').click();
-
-    cy.get(".notice p")
-      .should("be.visible")
-      .and(
-        "have.text",
-        "O formato do e-mail está incorreto. Por favor, verifique e tente novamente!"
-      );
+    cy.login("www.cyskills.com.br", "abc123456");
+    cy.noticeHave(
+      "O formato do e-mail está incorreto. Por favor, verifique e tente novamente!"
+    );
   });
 
   it("Should not login without email", () => {
     cy.get('[data-cy="password"]').type("abc123456");
-
     cy.get('[data-cy="login-button"]').click();
 
-    cy.get(".notice p")
-      .should("be.visible")
-      .and("have.text", "Parece que você esqueceu de informar seu e-mail.");
+    cy.noticeHave("Parece que você esqueceu de informar seu e-mail.");
   });
 
   it("Should not login without password", () => {
     cy.get('[data-cy="email"]').type("papito@cyskills.com.br");
-
     cy.get('[data-cy="login-button"]').click();
 
-    cy.get(".notice p")
-      .should("be.visible")
-      .and("have.text", "Por favor, digite sua senha para continuar.");
+    cy.noticeHave("Por favor, digite sua senha para continuar.");
   });
+});
+
+Cypress.Commands.add("login", (email, password) => {
+  cy.get('[data-cy="email"]').type(email);
+  cy.get('[data-cy="password"]').type(password);
+
+  cy.get('[data-cy="login-button"]').click();
+});
+
+Cypress.Commands.add("noticeHave", (text) => {
+  cy.get(".notice p").should("be.visible").and("have.text", text);
 });
