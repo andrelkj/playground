@@ -33,23 +33,19 @@ describe("Login", () => {
   });
 
   it("Should not login without email", () => {
-    cy.get('[data-cy="password"]').type("abc123456");
-    cy.get('[data-cy="login-button"]').click();
-
+    cy.login(null, "abc123456");
     cy.noticeHave("Parece que você esqueceu de informar seu e-mail.");
   });
 
   it("Should not login without password", () => {
-    cy.get('[data-cy="email"]').type("papito@cyskills.com.br");
-    cy.get('[data-cy="login-button"]').click();
-
+    cy.login("papito@cyskills.com.br", null);
     cy.noticeHave("Por favor, digite sua senha para continuar.");
   });
 });
 
 Cypress.Commands.add("login", (email, password) => {
-  cy.get('[data-cy="email"]').type(email);
-  cy.get('[data-cy="password"]').type(password);
+  email && cy.get('[data-cy="email"]').type(email);
+  password && cy.get('[data-cy="password"]').type(password);
 
   cy.get('[data-cy="login-button"]').click();
 });
