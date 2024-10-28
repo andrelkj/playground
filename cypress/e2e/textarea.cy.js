@@ -6,6 +6,7 @@ describe("Textarea", () => {
   it("Should fill text area field", () => {
     cy.login("papito@cyskills.com.br", "showtime");
     cy.userLoggedIn();
+
     cy.goTo("/textarea", "Textarea");
 
     cy.get('textarea[name="message"]').type(
