@@ -1,18 +1,11 @@
 describe("Login", () => {
   beforeEach(() => {
-    cy.viewport(1920, 1080);
-
-    cy.visit("https://playground.cyskills.com.br");
-
-    cy.contains("h2", "Faça login").should("be.visible");
+    cy.goHome();
   });
 
   it("Should login successfully", () => {
     cy.login("papito@cyskills.com.br", "showtime");
-
-    cy.get('[data-cy="welcome-title"]')
-      .should("be.visible")
-      .and("have.text", "Boas vindas ao Cypress Playground");
+    cy.userLoggedIn();
   });
 
   it("Should not login with invalid password", () => {
