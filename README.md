@@ -238,3 +238,39 @@ it("Should select Cypress as the framework option", () => {
 ```
 
 **Note:** initially we had 14 found elements for the select locator, but by filtering by the parent label we only found 1.
+
+#### Validate uploaded documents
+
+When validating the functionality of uploading documents in an input field you should also check if the attached document is the one you expect, one way to do that is by using the `then()` method after the upload is executed:
+
+```js
+it("Should attach a document", () => {
+  cy.get('input[name="doc"]')
+    .selectFile("cypress/fixtures/doc.pdf")
+    .then((element) => {
+      //refers back to the initial input element
+      expect(element[0].files[0].name).to.equal("doc.pdf");
+    });
+});
+```
+
+**Note:** when using the then method the argument defined is a reference to the initial element with which you started the interaction (aka `input[name="doc"]` in this example).
+
+#### Validate uploaded images
+
+When validating the functionality of uploading images in an input field you should also check if the attached image is the one you expect, using the then method as for the uploaded documents.
+
+In addition to that ideally you should validate if the image is visible, if the source link is present within the element and also, in case a preview is displayed, you can check if the image source contain blob attribute:
+
+```js
+it.only("Should attach an image", () => {
+  ...
+  cy.get("#image-upload")
+    .find("img")
+    .should("be.visible")
+    .should("have.attr", "src")
+    .and("include", "blob");
+});
+```
+
+**Note:** the blob attribute is present to indicate that a preview is being rendered in the page and the user should be able to visialize this image preview.
