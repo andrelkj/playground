@@ -170,8 +170,9 @@ Another approach is to use the `.parent()` function to get the neares parent ele
 
   ```html
   <label for="javascript" class="flex cursor-pointer select-none items-center">
+    <!-- Nearest parent to perform the click -->
     <div class="relative">
-      <!-- Nearest parent to perform the click -->
+      <!-- Initial locator -->
       <input
         type="checkbox"
         id="javascript"
@@ -179,10 +180,43 @@ Another approach is to use the `.parent()` function to get the neares parent ele
         class="sr-only"
         value="1"
       />
-      <!-- Initial locator -->
       ...
     </div></label
   >
   ```
 
 **Note:** In case the whole label is clickable you can use the `label[for="javascript"]` locator instead.
+
+#### Finding elements by parent and label
+
+It is common to face bad or no locators at all when creating automated tests:
+
+```html
+<div>
+  <!-- Parent label with good locator -->
+  <label class="mb-3 block text-black dark:text-white"
+    >Selecione um Framework de Testes</label
+  >
+  <div class="relative z-20 bg-gray dark:bg-form-input">
+    <span class="absolute top-1/2 left-4 z-30 -translate-y-1/2"
+      ><svg></svg></span
+    ><!-- Poor selector without usefull locators -->
+    <select
+      class="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-12 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input text-black dark:text-white"
+    ></select>
+  </div>
+</div>
+```
+
+When facing these difficult locators you can use the `parent()` function combined with the `filter()` method to create unique locators:
+
+```js
+it("Should select Cypress as the framework option", () => {
+  cy.contains("label", "Selecione um Framework de Testes")
+    .parent()
+    .find("select")
+    .select("Cypress");
+});
+```
+
+**Note:** initially we had 14 found elements for the select locator, but by filtering by the parent label we only found 1.

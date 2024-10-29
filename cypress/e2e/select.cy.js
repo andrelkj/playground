@@ -1,0 +1,27 @@
+describe("Select", () => {
+  beforeEach(() => {
+    cy.goHome();
+
+    cy.login("papito@cyskills.com.br", "showtime");
+    cy.userLoggedIn();
+
+    cy.goTo("/select", "Select");
+  });
+
+  it("Should select Cypress as the framework option", () => {
+    cy.contains("label", "Selecione um Framework de Testes")
+      .parent()
+      .find("select")
+      .select("Cypress");
+  });
+
+  it("Should select all language options that uses Node.js", () => {
+    const langs = ["JavaScript", "TypeScript"];
+
+    cy.get('input[placeholder^="Linguagens de programação"]').click();
+
+    langs.forEach((lang) => {
+      cy.contains(".option-item", lang).click();
+    });
+  });
+});
