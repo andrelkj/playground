@@ -48,6 +48,6 @@ Cypress.Commands.add("noticeHave", (text) => {
 });
 
 Cypress.Commands.add("goTo", (route, title) => {
-  cy.get(`nav a[href="${route}"]`).click();
-  cy.contains("h2", title).should("be.visible");
-});
+    cy.get(`nav a[href="${route}"]`).click();
+    cy.contains("h2", title).should("be.visible");
+  });

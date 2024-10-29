@@ -124,6 +124,24 @@ The approach using custom commands require the following steps:
 
 Following these steps you should be able to successfully implement custom command that you can reuse throughout your tests.
 
+#### Regular expressions
+
+It is quite common to have similar values, names or expressions in HTML which can cause flaky locators when using the contains method (e.g. Java and Javascript where both contain the sentence Java). Regex is really helpful in this scenario by specifying the start and end of the sentence and giving more assertivity to your expression:
+
+```js
+it.only("Should select all language options that uses Node.js", () => {
+  const langs = ["JavaScript", "TypeScript"];
+
+  cy.get('input[placeholder^="Linguagens de programação"]').click();
+
+  langs.forEach((lang) => {
+    cy.contains(".option-item", new RegExp("^" + lang + "$")).click(); // RegExp specifying the start and the end of the sentence
+  });
+});
+```
+
+**Note:** by specifying the start (^) and the end ($) of the sentence you now can differentiate Java from Javascript even when using the contains method.
+
 ### Tips and tricks
 
 #### Covered elements

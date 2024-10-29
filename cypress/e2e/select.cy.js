@@ -15,13 +15,15 @@ describe("Select", () => {
       .select("Cypress");
   });
 
-  it("Should select all language options that uses Node.js", () => {
+  it.only("Should select all language options that uses Node.js", () => {
     const langs = ["JavaScript", "TypeScript"];
 
     cy.get('input[placeholder^="Linguagens de programação"]').click();
 
     langs.forEach((lang) => {
-      cy.contains(".option-item", lang).click();
+      cy.contains(".option-item", new RegExp("^" + lang + "$")).click();
     });
+
+    cy.get(".language-item").should("have.length", langs.length);
   });
 });
