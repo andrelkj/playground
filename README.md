@@ -274,3 +274,30 @@ it.only("Should attach an image", () => {
 ```
 
 **Note:** the blob attribute is present to indicate that a preview is being rendered in the page and the user should be able to visialize this image preview.
+
+#### Perform keyboard actions
+
+Sometimes when working with input elements such as tags or auto-generated suggestions (e.g. address) you'll need to perform keyboard actions in addition to the fulfiling the field (e.g. pressing enter to register a tag), in this case you can specify the key you want to press using `{Enter}` in combination to the text you want to type:
+
+```js
+it("should add some tags", () => {
+  cy.get(".new-tag").type("Cypress{Enter}"); // type Cypress and press the enter key
+});
+```
+
+#### Thinking time
+
+The main purpose of building automated tests is to validate user workflows, considering that it good to consider adding some waiting time to mimic the users thinking time before performing the action (e.g. adding multiple tags):
+
+```js
+it("should add some tags", () => {
+  const tags = ["Cypress", "Javascript", "NodeJS"];
+
+  tags.forEach((tag) => {
+    cy.get(".new-tag").type(`${tag}{Enter}`);
+    cy.wait(500); // thinking time
+  });
+});
+```
+
+**Note:** this is optional but can provide a closest relation of the actual users interaction with the page.

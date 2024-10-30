@@ -3,7 +3,7 @@ describe("Input Fields", () => {
     cy.goHome();
   });
 
-  it("should fill the text input field", () => {
+  it("Should fill the text input field", () => {
     cy.login("papito@cyskills.com.br", "showtime");
     cy.userLoggedIn();
 
