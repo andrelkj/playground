@@ -34,4 +34,9 @@ describe('Login', () => {
     cy.login('papito@cyskills.com.br', null)
     cy.noticeHave('Por favor, digite sua senha para continuar.')
   })
+
+  it('Should not login without email and password', () => {
+    cy.login(null, null)
+    cy.noticeHave('Parece que você esqueceu de informar seu e-mail.')
+  })
 })

@@ -24,6 +24,11 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
+Cypress.Commands.add('doLogin', () => {
+  cy.login('papito@cyskills.com.br', 'showtime')
+  cy.userLoggedIn()
+})
+
 Cypress.Commands.add('goHome', () => {
   cy.viewport(1920, 1080)
   cy.visit('https://playground.cyskills.com.br')
