@@ -3,5 +3,9 @@
   "packageManager": "yarn@4.5.1",
   "devDependencies": {
     "cypress": "13.15.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "semi": false
   }
 }

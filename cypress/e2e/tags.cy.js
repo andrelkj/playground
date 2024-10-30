@@ -1,23 +1,23 @@
-describe("Tags", () => {
+describe('Tags', () => {
   beforeEach(() => {
-    cy.goHome();
+    cy.goHome()
 
-    cy.login("papito@cyskills.com.br", "showtime");
-    cy.userLoggedIn();
+    cy.login('papito@cyskills.com.br', 'showtime')
+    cy.userLoggedIn()
 
-    cy.goTo("/tags", "Tags");
-  });
+    cy.goTo('/tags', 'Tags')
+  })
 
-  it("Should add some tags", () => {
-    const tags = ["Cypress", "Javascript", "NodeJS"];
-
-    tags.forEach((tag) => {
-      cy.get(".new-tag").type(`${tag}{Enter}`).should("have.value", "");
-      cy.wait(500); // thinking time
-    });
+  it('Should add some tags', () => {
+    const tags = ['Cypress', 'Javascript', 'NodeJS']
 
     tags.forEach((tag) => {
-      cy.get(".tag-input").should("contain", tag);
-    });
-  });
-});
+      cy.get('.new-tag').type(`${tag}{Enter}`).should('have.value', '')
+      cy.wait(500) // thinking time
+    })
+
+    tags.forEach((tag) => {
+      cy.get('.tag-input').should('contain', tag)
+    })
+  })
+})

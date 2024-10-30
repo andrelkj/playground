@@ -1,29 +1,29 @@
-describe("Select", () => {
+describe('Select', () => {
   beforeEach(() => {
-    cy.goHome();
+    cy.goHome()
 
-    cy.login("papito@cyskills.com.br", "showtime");
-    cy.userLoggedIn();
+    cy.login('papito@cyskills.com.br', 'showtime')
+    cy.userLoggedIn()
 
-    cy.goTo("/select", "Select");
-  });
+    cy.goTo('/select', 'Select')
+  })
 
-  it("Should select Cypress as the framework option", () => {
-    cy.contains("label", "Selecione um Framework de Testes")
+  it('Should select Cypress as the framework option', () => {
+    cy.contains('label', 'Selecione um Framework de Testes')
       .parent()
-      .find("select")
-      .select("Cypress");
-  });
+      .find('select')
+      .select('Cypress')
+  })
 
-  it.only("Should select all language options that uses Node.js", () => {
-    const langs = ["JavaScript", "TypeScript"];
+  it.only('Should select all language options that uses Node.js', () => {
+    const langs = ['JavaScript', 'TypeScript']
 
-    cy.get('input[placeholder^="Linguagens de programação"]').click();
+    cy.get('input[placeholder^="Linguagens de programação"]').click()
 
     langs.forEach((lang) => {
-      cy.contains(".option-item", new RegExp("^" + lang + "$")).click();
-    });
+      cy.contains('.option-item', new RegExp('^' + lang + '$')).click()
+    })
 
-    cy.get(".language-item").should("have.length", langs.length);
-  });
-});
+    cy.get('.language-item').should('have.length', langs.length)
+  })
+})

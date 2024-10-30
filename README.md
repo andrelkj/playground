@@ -13,14 +13,14 @@ Once we start to write automated testing we need to stick with some best practic
 Checkpoints are verification points where you ensure the correct page is displayed or expected action took place prior to proceeding with any subsequent step:
 
 ```js
-cy.visit("https://playground.cyskills.com.br");
+cy.visit('https://playground.cyskills.com.br')
 
-cy.contains("h2", "Faça login").should("be.visible"); // checkpoint to ensure the redirection to the login page
+cy.contains('h2', 'Faça login').should('be.visible') // checkpoint to ensure the redirection to the login page
 
-cy.get('[data-cy="email"]').type("papito@cyskills.com.br");
-cy.get('[data-cy="password"]').type("showtime");
+cy.get('[data-cy="email"]').type('papito@cyskills.com.br')
+cy.get('[data-cy="password"]').type('showtime')
 
-cy.get('[data-cy="login-button"]').click();
+cy.get('[data-cy="login-button"]').click()
 ```
 
 **Note:** we only proceed to the next steps if the checkpoint is confirmed.
@@ -103,12 +103,12 @@ The approach using custom commands require the following steps:
 1. Create a cypress command function:
 
    ```js
-   Cypress.Commands.add("login", (email, password) => {
-     cy.get('[data-cy="email"]').type(email);
-     cy.get('[data-cy="password"]').type(password);
+   Cypress.Commands.add('login', (email, password) => {
+     cy.get('[data-cy="email"]').type(email)
+     cy.get('[data-cy="password"]').type(password)
 
-     cy.get('[data-cy="login-button"]').click();
-   });
+     cy.get('[data-cy="login-button"]').click()
+   })
    ```
 
 2. Replace test case steps with the custom command and it's required arguments:
@@ -129,15 +129,15 @@ Following these steps you should be able to successfully implement custom comman
 It is quite common to have similar values, names or expressions in HTML which can cause flaky locators when using the contains method (e.g. Java and Javascript where both contain the sentence Java). Regex is really helpful in this scenario by specifying the start and end of the sentence and giving more assertivity to your expression:
 
 ```js
-it.only("Should select all language options that uses Node.js", () => {
-  const langs = ["JavaScript", "TypeScript"];
+it.only('Should select all language options that uses Node.js', () => {
+  const langs = ['JavaScript', 'TypeScript']
 
-  cy.get('input[placeholder^="Linguagens de programação"]').click();
+  cy.get('input[placeholder^="Linguagens de programação"]').click()
 
   langs.forEach((lang) => {
-    cy.contains(".option-item", new RegExp("^" + lang + "$")).click(); // RegExp specifying the start and the end of the sentence
-  });
-});
+    cy.contains('.option-item', new RegExp('^' + lang + '$')).click() // RegExp specifying the start and the end of the sentence
+  })
+})
 ```
 
 **Note:** by specifying the start (^) and the end ($) of the sentence you now can differentiate Java from Javascript even when using the contains method.
@@ -229,12 +229,12 @@ It is common to face bad or no locators at all when creating automated tests:
 When facing these difficult locators you can use the `parent()` function combined with the `filter()` method to create unique locators:
 
 ```js
-it("Should select Cypress as the framework option", () => {
-  cy.contains("label", "Selecione um Framework de Testes")
+it('Should select Cypress as the framework option', () => {
+  cy.contains('label', 'Selecione um Framework de Testes')
     .parent()
-    .find("select")
-    .select("Cypress");
-});
+    .find('select')
+    .select('Cypress')
+})
 ```
 
 **Note:** initially we had 14 found elements for the select locator, but by filtering by the parent label we only found 1.
@@ -244,14 +244,14 @@ it("Should select Cypress as the framework option", () => {
 When validating the functionality of uploading documents in an input field you should also check if the attached document is the one you expect, one way to do that is by using the `then()` method after the upload is executed:
 
 ```js
-it("Should attach a document", () => {
+it('Should attach a document', () => {
   cy.get('input[name="doc"]')
-    .selectFile("cypress/fixtures/doc.pdf")
+    .selectFile('cypress/fixtures/doc.pdf')
     .then((element) => {
       //refers back to the initial input element
-      expect(element[0].files[0].name).to.equal("doc.pdf");
-    });
-});
+      expect(element[0].files[0].name).to.equal('doc.pdf')
+    })
+})
 ```
 
 **Note:** when using the then method the argument defined is a reference to the initial element with which you started the interaction (aka `input[name="doc"]` in this example).
@@ -280,9 +280,9 @@ it.only("Should attach an image", () => {
 Sometimes when working with input elements such as tags or auto-generated suggestions (e.g. address) you'll need to perform keyboard actions in addition to the fulfiling the field (e.g. pressing enter to register a tag), in this case you can specify the key you want to press using `{Enter}` in combination to the text you want to type:
 
 ```js
-it("should add some tags", () => {
-  cy.get(".new-tag").type("Cypress{Enter}"); // type Cypress and press the enter key
-});
+it('should add some tags', () => {
+  cy.get('.new-tag').type('Cypress{Enter}') // type Cypress and press the enter key
+})
 ```
 
 #### Thinking time
@@ -290,14 +290,14 @@ it("should add some tags", () => {
 The main purpose of building automated tests is to validate user workflows, considering that it good to consider adding some waiting time to mimic the users thinking time before performing the action (e.g. adding multiple tags):
 
 ```js
-it("should add some tags", () => {
-  const tags = ["Cypress", "Javascript", "NodeJS"];
+it('should add some tags', () => {
+  const tags = ['Cypress', 'Javascript', 'NodeJS']
 
   tags.forEach((tag) => {
-    cy.get(".new-tag").type(`${tag}{Enter}`);
-    cy.wait(500); // thinking time
-  });
-});
+    cy.get('.new-tag').type(`${tag}{Enter}`)
+    cy.wait(500) // thinking time
+  })
+})
 ```
 
 **Note:** this is optional but can provide a closest relation of the actual users interaction with the page.
