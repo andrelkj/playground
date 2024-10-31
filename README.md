@@ -142,6 +142,26 @@ it.only('Should select all language options that uses Node.js', () => {
 
 **Note:** by specifying the start (^) and the end ($) of the sentence you now can differentiate Java from Javascript even when using the contains method.
 
+#### Intercept
+
+Cypress can intercept API requests made during the test execution, which is very useful to validate the requests status and responses during the execution, and also send mock information as well:
+
+```js
+const address = {
+  cep: '04534011',
+  logradouro: 'Rua Joaquim Floriano',
+  localidade: 'São Paulo',
+  uf: 'SP',
+}
+
+cy.intercept('GET', `https://viacep.com.br/ws/${address.cep}/json/`, {
+  statusCode: 200,
+  body: address,
+}).as('getCep')
+```
+
+**Note:** intercept method comes up handy when an external api break and you need to validate the response for specific sets of data that you could mock.
+
 ### Tips and tricks
 
 #### Covered elements
