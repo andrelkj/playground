@@ -321,3 +321,33 @@ it('should add some tags', () => {
 ```
 
 **Note:** this is optional but can provide a closest relation of the actual users interaction with the page.
+
+#### Drag and Drop
+
+It is quite common to have actions like drag and drop within applications although Cypress doesn't have a build-in method to handle this type of action. One alternative is to use Javascript directly to perform the action:
+
+1. Create a new instance of `DataTransfer()` method from javascript:
+
+```js
+const dataTransfer = new DataTransfer()
+```
+
+2. Call the javascript method `trigger('dragstart')` on the locator you want to drag in order to start draggin the element:
+
+```js
+cy.contains('div[draggable=true]', task).trigger('dragstart', { dataTransfer })
+```
+
+3. Call the javascript method `trigger('drop')` on the locator you want to drop the element:
+
+```js
+cy.contains('h4', 'Done').parent().trigger('drop', { dataTransfer })
+```
+
+4. FInally you just need to validate that the element can be found in the destination column:
+
+```js
+cy.contains('h4', 'Done').parent().contains('div[draggable=true]', task)
+```
+
+**Note:** drag and drop elements should contain the attribute `draggable="true"`
