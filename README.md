@@ -351,3 +351,17 @@ cy.contains('h4', 'Done').parent().contains('div[draggable=true]', task)
 ```
 
 **Note:** drag and drop elements should contain the attribute `draggable="true"`
+
+#### Iframe
+
+Quite often pages use iframes to load external pages, videos, blogs or other content types that are not part of the actual page directly. Although as this iframes are not parte of the page directly you won't be able to access it's elements directly, to work with iframes you need to open the external context using javascript callback function `then()` and then look for the target locator:
+
+```js
+it('Should fill the name in a page with IFrame', () => {
+  cy.get('[data-cy="iframe-inputs"]').then(($iframe) => {
+    const $body = $iframe.contents().find('body') // access the iframe context
+
+    cy.wrap($body).find('#fullname').type('André Kreutzer') // interact with the locator from inside the iframe
+  })
+})
+```
