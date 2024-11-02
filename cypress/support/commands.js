@@ -30,8 +30,7 @@ Cypress.Commands.add('doLogin', () => {
 })
 
 Cypress.Commands.add('goHome', () => {
-  cy.viewport(1920, 1080)
-  cy.visit('https://playground.cyskills.com.br')
+  cy.visit('/')
   cy.contains('h2', 'Faça login').should('be.visible')
 })
 

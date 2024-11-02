@@ -162,6 +162,53 @@ cy.intercept('GET', `https://viacep.com.br/ws/${address.cep}/json/`, {
 
 **Note:** intercept method comes up handy when an external api break and you need to validate the response for specific sets of data that you could mock.
 
+#### Cypress configs
+
+##### Base URL
+
+It is really important and usefull to define a `baseUrl` when working with different pages from the same application, it helps with maintenance and readability:
+
+- Defining the `baseUrl` in [cypress.config.js](cypress.config.js):
+
+```js
+  baseUrl: 'https://playground.cyskills.com.br',
+```
+
+- Calling the `baseUrl` in the [commands.js](/cypress/support/commands.js):
+
+```js
+Cypress.Commands.add('goHome', () => {
+  cy.visit('/') // uses the baseUrl itself
+  cy.contains('h2', 'Faça login').should('be.visible')
+})
+```
+
+- Using the `baseUrl` in your test suites (e.g. [cep.cy.js](/cypress/e2e/cep.cy.js)):
+
+```js
+describe('CEP', () => {
+  beforeEach(() => {
+    cy.goHome()
+    cy.doLogin()
+    cy.goTo('/cep', 'CEP (API dos Correios)') // would go to cep page
+  })
+  ...
+})
+```
+
+**Note:** the cep example is just illustrative given the method goTo performs a different action.
+
+##### Viewport
+
+You can also define specific viewports for the test to run against, which can be usefull when working with different devices:
+
+```js
+  viewportWidth: 1920, // defines the page width size
+  viewportHeight: 1080, // defines the page height size
+```
+
+**Note:** it is possible to define different viewport for specific test cases and test suites if needed as well.
+
 ### Tips and tricks
 
 #### Covered elements
