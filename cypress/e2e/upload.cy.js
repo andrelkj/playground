@@ -13,7 +13,7 @@ describe('Upload', () => {
       })
   })
 
-  it.only('Should attach an image', () => {
+  it('Should attach an image', () => {
     cy.get('input[name="photo"]')
       .selectFile('cypress/fixtures/liga.jpg')
       .then((element) => {

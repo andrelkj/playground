@@ -12,7 +12,7 @@ describe('Select', () => {
       .select('Cypress')
   })
 
-  it.only('Should select all language options that uses Node.js', () => {
+  it('Should select all language options that uses Node.js', () => {
     const langs = ['JavaScript', 'TypeScript']
 
     cy.get('input[placeholder^="Linguagens de programação"]').click()

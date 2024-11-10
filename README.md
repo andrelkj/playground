@@ -412,3 +412,20 @@ it('Should fill the name in a page with IFrame', () => {
   })
 })
 ```
+
+#### Multiple tabs
+
+Cypress does not provide support to work with multiple browser tab testing, although to perform redirects to external third party applications you can check the href attribute instead of clicking on the link to open the page itself:
+
+```js
+it.only('Should click on the link that goes to instagram', () => {
+  const id = 'instapapito'
+
+  cy.contains('table tbody tr', id)
+    .contains('a', 'Visitar')
+    .should('have.attr', 'href', 'https://instagram.com/instapapito')
+    .and('have.attr', 'target', '_blank')
+})
+```
+
+**Note:** everytime a link is expected to open the page on a new tab it will contain the attribute `target="_blank"`, that can be added to the test case to validate that it will open a separate browser tab.
